@@ -1,18 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="./style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pen</title>
-  </head>
-  <body>
-
-    <script src="./script.js"></script>
-  </body>
-</html>
-
-<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
@@ -50,7 +36,7 @@
 
     /* 星星裝飾 */
     body::before {
-      content: "✦       ✧          ✦       ⋆      ✧";
+      content: "✦        ✧          ✦        ⋆      ✧";
       position: fixed;
       inset: 0;
       width: 100%;
@@ -154,11 +140,12 @@
     }
 
     .progress-fill {
-      width: 12.5%;
+      width: 18.75%; /* 3 / 16 = 18.75% */
       height: 100%;
       border-radius: inherit;
       background: linear-gradient(90deg, var(--blue), var(--pink));
       box-shadow: 0 0 12px var(--blue);
+      transition: width 0.3s ease;
     }
 
     .progress-text {
@@ -373,7 +360,7 @@
       ✦ MY PORTFOLIO · 2026 ✦
     </div>
 
-    <!-- 個人頭像：目前使用假圖片 -->
+    <!-- 個人頭像 -->
     <div class="avatar-frame">
       <img
         class="avatar"
@@ -400,12 +387,12 @@
       aria-label="任務完成進度"
       aria-valuemin="0"
       aria-valuemax="16"
-      aria-valuenow="2"
+      aria-valuenow="3"
     >
       <div class="progress-fill"></div>
     </div>
 
-    <p class="progress-text">2 / 16 QUESTS AVAILABLE</p>
+    <p class="progress-text">3 / 16 QUESTS AVAILABLE</p>
 
     <!-- 16 個關卡 -->
     <nav class="mission-grid" aria-label="作品集任務選單">
@@ -424,13 +411,14 @@
         <span class="mission-desc">今天吃甚麼？ ↗</span>
       </a>
 
-      <!-- Week 3–16：尚未解鎖 -->
-      <a class="mission locked" href="#" aria-disabled="true" tabindex="-1">
-        <span class="mission-icon">🔒</span>
+      <!-- Week 3：已解鎖 -->
+      <a class="mission unlocked" href="w3/index.html">
+        <span class="mission-icon">🖼️</span>
         <span class="mission-name">Week 3</span>
-        <span class="mission-desc">尚未解鎖</span>
+        <span class="mission-desc">迷因產生器 ↗</span>
       </a>
 
+      <!-- Week 4–16：尚未解鎖 -->
       <a class="mission locked" href="#" aria-disabled="true" tabindex="-1">
         <span class="mission-icon">🔒</span>
         <span class="mission-name">Week 4</span>
