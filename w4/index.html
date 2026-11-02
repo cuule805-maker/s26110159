@@ -1,0 +1,419 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week 4 | My To-do List</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Trebuchet MS", "Microsoft JhengHei", sans-serif;
+  color: white;
+  padding: 30px 15px;
+  background:
+    radial-gradient(circle at 15% 15%, #9b75ef, transparent 35%),
+    radial-gradient(circle at 85% 80%, #f28acb, transparent 35%),
+    linear-gradient(135deg, #20235f, #5154a5, #39205d);
+}
+
+.container {
+  width: min(100%, 650px);
+  margin: auto;
+}
+
+header {
+  text-align: center;
+  margin: 20px 0 30px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 9px 20px;
+  border: 1px solid #ffffff66;
+  border-radius: 30px;
+  background: #ffffff18;
+  letter-spacing: 3px;
+  font-size: 12px;
+}
+
+h1 {
+  font-size: 40px;
+  margin: 20px 0 10px;
+  text-shadow: 0 0 18px #ff9bd8;
+}
+
+.subtitle {
+  color: #e5e5ff;
+  font-size: 13px;
+  letter-spacing: 3px;
+}
+
+.panel {
+  padding: 25px;
+  border: 1px solid #ffffff55;
+  border-radius: 28px;
+  background: #ffffff18;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 18px 50px #11133b55;
+}
+
+.date {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #e6e6ff;
+}
+
+.entry {
+  display: flex;
+  gap: 10px;
+}
+
+input {
+  flex: 1;
+  min-width: 0;
+  padding: 15px;
+  border-radius: 15px;
+  border: 1px solid #ffffff70;
+  background: white;
+  color: #34305f;
+  font-size: 15px;
+  outline: none;
+}
+
+.add {
+  padding: 0 20px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #56346e;
+  background: linear-gradient(135deg, #ffb5df, #c9b5ff);
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 22px 0;
+}
+
+.filter {
+  padding: 9px 16px;
+  border-radius: 30px;
+  color: white;
+  background: #ffffff18;
+  border: 1px solid #ffffff45;
+  cursor: pointer;
+}
+
+.filter.active {
+  background: linear-gradient(135deg, #ff91cf, #a88aff);
+}
+
+ul {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #ffffff40;
+  border-radius: 16px;
+  background: #ffffff16;
+}
+
+.check {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #ffd4ed;
+  border-radius: 7px;
+  background: transparent;
+  color: #60427c;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.task {
+  flex: 1;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+
+li.done .task {
+  text-decoration: line-through;
+  color: #c9c5df;
+}
+
+li.done .check {
+  background: #ffc0e4;
+}
+
+.delete {
+  padding: 7px 10px;
+  border: none;
+  border-radius: 9px;
+  background: #ffffff20;
+  color: #ffe1f2;
+  cursor: pointer;
+}
+
+.empty {
+  text-align: center;
+  color: #e5dcff;
+  padding: 25px 5px;
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+  color: #e5e2ff;
+  font-size: 12px;
+}
+
+.clear {
+  background: transparent;
+  color: #ffd4ee;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+footer {
+  text-align: center;
+  color: #dedaff;
+  font-size: 11px;
+  letter-spacing: 3px;
+  margin-top: 30px;
+  line-height: 2;
+}
+
+@media(max-width: 430px) {
+  .panel {
+    padding: 18px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  .add {
+    padding: 0 14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="container">
+
+  <header>
+    <span class="tag">✦ MY PORTFOLIO · WEEK 04 ✦</span>
+    <h1>My To-do List ♡</h1>
+    <p class="subtitle">MAKE TODAY AMAZING</p>
+  </header>
+
+  <section class="panel">
+
+    <p class="date" id="today"></p>
+
+    <form class="entry" id="taskForm">
+      <input
+        id="taskInput"
+        type="text"
+        placeholder="輸入今天要完成的事情..."
+        maxlength="100"
+        autocomplete="off"
+      >
+      <button class="add" type="submit">＋ 新增</button>
+    </form>
+
+    <div class="filters">
+      <button class="filter active" data-filter="all">全部</button>
+      <button class="filter" data-filter="active">尚未完成</button>
+      <button class="filter" data-filter="done">已完成</button>
+    </div>
+
+    <ul id="taskList"></ul>
+
+    <p class="empty" id="empty">
+      還沒有待辦事項，新增一件開始吧！ ✧
+    </p>
+
+    <div class="bottom">
+      <span id="count">還有 0 件事情要完成</span>
+      <button class="clear" id="clearDone">
+        清除已完成
+      </button>
+    </div>
+
+  </section>
+
+  <footer>
+    ✦ KEEP GOING · DREAM · LEARN · GROW ✦
+    <br>
+    © 2026 MY DIGITAL WORLD
+  </footer>
+
+</main>
+
+<script>
+// 取得 HTML 元素
+const form = document.getElementById("taskForm");
+const input = document.getElementById("taskInput");
+const list = document.getElementById("taskList");
+const empty = document.getElementById("empty");
+const count = document.getElementById("count");
+const filters = document.querySelectorAll(".filter");
+
+// 儲存待辦事項
+let tasks = JSON.parse(
+  localStorage.getItem("week4Tasks") || "[]"
+);
+
+let currentFilter = "all";
+
+// 顯示今天日期
+document.getElementById("today").textContent =
+  new Date().toLocaleDateString("zh-TW", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    weekday: "long"
+  });
+
+// 儲存資料
+function save() {
+  localStorage.setItem(
+    "week4Tasks",
+    JSON.stringify(tasks)
+  );
+}
+
+// 顯示任務
+function render() {
+  list.innerHTML = "";
+
+  const shown = tasks.filter(task =>
+    currentFilter === "all" ||
+    (currentFilter === "done" ? task.done : !task.done)
+  );
+
+  empty.hidden = shown.length > 0;
+
+  empty.textContent = tasks.length === 0
+    ? "還沒有待辦事項，新增一件開始吧！ ✧"
+    : "這個分類目前沒有事項 ✧";
+
+  shown.forEach(task => {
+
+    const li = document.createElement("li");
+
+    if (task.done) {
+      li.classList.add("done");
+    }
+
+    // 完成按鈕
+    const check = document.createElement("button");
+    check.className = "check";
+    check.textContent = task.done ? "✓" : "";
+
+    check.addEventListener("click", () => {
+      task.done = !task.done;
+      save();
+      render();
+    });
+
+    // 任務文字
+    const span = document.createElement("span");
+    span.className = "task";
+    span.textContent = task.text;
+
+    // 刪除按鈕
+    const del = document.createElement("button");
+    del.className = "delete";
+    del.textContent = "✕";
+
+    del.addEventListener("click", () => {
+      tasks = tasks.filter(t => t.id !== task.id);
+      save();
+      render();
+    });
+
+    li.append(check, span, del);
+    list.appendChild(li);
+
+  });
+
+  // 更新剩餘任務數量
+  const remaining = tasks.filter(t => !t.done).length;
+
+  count.textContent =
+    `還有 ${remaining} 件事情要完成 · 共 ${tasks.length} 件`;
+
+  // 更新分類按鈕
+  filters.forEach(btn => {
+    btn.classList.toggle(
+      "active",
+      btn.dataset.filter === currentFilter
+    );
+  });
+}
+
+// 新增任務
+form.addEventListener("submit", e => {
+  e.preventDefault();
+
+  const value = input.value.trim();
+
+  if (!value) return;
+
+  tasks.unshift({
+    id: Date.now(),
+    text: value,
+    done: false
+  });
+
+  input.value = "";
+
+  save();
+  render();
+  input.focus();
+});
+
+// 切換分類
+filters.forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentFilter = btn.dataset.filter;
+    render();
+  });
+});
+
+// 清除已完成任務
+document.getElementById("clearDone")
+  .addEventListener("click", () => {
+    tasks = tasks.filter(t => !t.done);
+    save();
+    render();
+  });
+
+// 初始顯示
+render();
+</script>
+
+</body>
+</html>
